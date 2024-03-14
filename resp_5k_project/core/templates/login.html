@@ -1,31 +1,46 @@
-{% extends 'base.html' %}
+{% extends "base-account.html" %}
 
-{% block content %}
-<h1> This is the login page </h1>
+{% block title %}Login{% endblock %}
+{% block card-title %}Login{% endblock %}
+
+{% block card-body %}
 <form method="post" action="/login/">
-    {% csrf_token %}
-  <div class="form-group">
-    <div class="form-label-group">
-      {{ form.username }}
+        {% csrf_token %}
+    {% if form.username.errors %}
+        <div class="alert alert-warning" role="alert">
+            {{ form.username.errors }}
+        </div>
+    {% endif %}
+    <div class="form-floating mb-3">
+        {{ form.username }}
+        {{ form.username.label_tag }}
     </div>
-  </div>
-  <div class="form-group">
-    <div class="form-label-group">
-      {{ form.password }}
+    <!-- <div class="form-floating mb-3"> -->
+    <!--     <input class="form-control" id="id_email" type="email" placeholder="name@example.com" /> -->
+    <!--     <label for="id_email">Email address</label> -->
+    <!-- </div> -->
+    {% if form.password.errors %}
+        <div class="alert alert-warning" role="alert">
+            {{ form.password.errors }}
+        </div>
+    {% endif %}
+    <div class="form-floating mb-3">
+        {{ form.password }}
+        {{ form.password.label_tag }}
     </div>
-  </div>
-  <button class="btn btn-primary btn-block" type="submit">Login</button>
+    <div class="form-check mb-3">
+        <input class="form-check-input" id="inputRememberPassword" type="checkbox" value="" />
+        <label class="form-check-label" for="inputRememberPassword">Remember Password</label>
+    </div>
+    <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
+        <a class="small" href="password.html">Forgot Password?</a>
+        <button class="btn btn-primary btn-block" type="submit">Login</button>
+    </div>
 </form>
-
-<script>
-  document.getElementById("id_username").classList.add("form-control");
-  document.getElementById("id_password").classList.add("form-control");
-  document.getElementById("id_username").placeholder = "Username";
-  document.getElementById("id_password").placeholder = "Password";
-  document.getElementById("id_username").type = "text";
-  document.getElementById("id_password").type = "password";
-  document.getElementById("id_username").required = "required";
-  document.getElementById("id_password").required = "required";
-  document.getElementById("id_username").autofocus = "autofocus";
-</script>
 {% endblock %}
+
+{% block card-footer %}
+    <div class="small"><a href="/register">Need an account? Sign up!</a></div>
+{% endblock %}
+
+

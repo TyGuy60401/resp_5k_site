@@ -1,0 +1,87 @@
+{% extends "base-account.html" %}
+
+{% block title %}Create Account{% endblock %}
+{% block card-title %}Create Account{% endblock %}
+
+{% block card-body %}
+<form method="post" action="/register/">
+        {% csrf_token %}
+
+    {% if form.first_name.errors  or form.last_name.errors %}
+        <div class="alert alert-warning" role="alert">
+            {{ form.first_name.errors }}
+            {{ form.last_name.errors }}
+        </div>
+    {% endif %}
+    {{ form.first_name.errors }}
+    {{ form.last_name.errors }}
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <div class="form-floating mb-3 mb-md-0">
+                {{ form.first_name }}
+                {{ form.first_name.label_tag }}
+                <!-- <input class="form-control" id="inputFirstName" type="text" placeholder="Enter your first name" /> -->
+                <!-- <label for="inputFirstName">First name</label> -->
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-floating">
+                {{ form.last_name }}
+                {{ form.last_name.label_tag }}
+                <!-- <input class="form-control" id="inputLastName" type="text" placeholder="Enter your last name" /> -->
+                <!-- <label for="inputLastName">Last name</label> -->
+            </div>
+        </div>
+    </div>
+    {% if form.email.errors %}
+        <div class="alert alert-warning" role="alert">
+            {{ form.email.errors }}
+        </div>
+    {% endif %}
+    <div class="form-floating mb-3">
+        {{ form.email }}
+        {{ form.email.label_tag }}
+        <!-- <input class="form-control" id="inputEmail" type="email" placeholder="name@example.com" /> -->
+        <!-- <label for="inputEmail">Email address</label> -->
+    </div>
+    {% if form.username.errors %}
+        <div class="alert alert-warning" role="alert">
+            {{ form.username.errors }}
+        </div>
+    {% endif %}
+    <div class="form-floating mb-3">
+        {{ form.username }}
+        {{ form.username.label_tag }}
+    </div>
+    {% if form.password1.errors  or form.password2.errors %}
+        <div class="alert alert-warning" role="alert">
+            {{ form.password1.errors }}
+            {{ form.password2.errors }}
+        </div>
+    {% endif %}
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <div class="form-floating mb-3 mb-md-0">
+                {{ form.password1 }}
+                {{ form.password1.label_tag }}
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-floating mb-3 mb-md-0">
+                {{ form.password2 }}
+                {{ form.password2.label_tag }}
+            </div>
+        </div>
+    </div>
+    <div class="mt-4 mb-0">
+        <!-- <div class="d-grid"><a class="btn btn-primary btn-block" href="login.html">Create Account</a></div> -->
+        <div class="d-grid"><button class="btn btn-primary btn-block" type="submit">Create Account</button></div>
+    </div>
+</form>
+{% endblock %}
+
+
+{% block card-footer %}
+<div class="small"><a href="/login">Have an account? Go to login</a></div>
+{% endblock %}
+
