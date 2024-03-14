@@ -1,38 +1,38 @@
 from django.contrib.admin.options import HttpResponseRedirect
+from django.contrib.auth.models import AnonymousUser
 from django.shortcuts import render
 from django.views import View
+from django.contrib.auth.views import LoginView
+from django.contrib.auth import get_user_model, logout
+from django.http.response import HttpResponse
+from django.urls import reverse_lazy
+
+
+from .mixins import U_LoginRequiredMixin
 from .forms import U_UserCreationForm, U_AuthenticationForm
-# from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth import login, authenticate
 
 # Create your views here.
-class Index(LoginRequiredMixin, View):
+class Index(View):
     template = 'index.html'
-    login_url = '/login/'
+    # login_url = '/login/'
 
     def get(self, request):
         return render(request, self.template)
 
+def main(request):
+    return render(request, 'main.html')
 
-class Login(View):
-    template = 'login.html'
+def profile(request):
+    if request.user.id == None:
+        return HttpResponse('<p>You must be logged in to view this page</p><br><a href="/login/">Log in</a>')
+    else:
+        return render(request, 'profile.html')
 
-    def get(self, request):
-        form = U_AuthenticationForm()
-        return render(request, self.template, {'form': form})
-
-    def post(self, request):
-        form = U_AuthenticationForm(data=request.POST)
-        username = request.POST['username']
-        password = request.POST['password']
-        user = authenticate(request, username=username, password=password)
-        print(user)
-        if user is not None:
-            login(request, user)
-            return HttpResponseRedirect('/')
-        else:
-            return render(request, self.template, {'form': form})
+class Login(LoginView):
+    template_name = 'login.html'
+    form_class = U_AuthenticationForm
+    
 
 class Register(View):
     template = 'register.html'
@@ -50,3 +50,16 @@ class Register(View):
         print(form.errors)
         print("I guess it wasn't successfully created")
         return render(request, self.template, {'form': form})
+
+def logout_view(request):
+    logout(request)
+    return HttpResponseRedirect('/')
+
+
+def check_username(request):
+    username = request.POST.get('username')
+    if get_user_model().objects.filter(username=username).exists():
+        return HttpResponse('<div class="alert alert-warning" role="alert" id="username-error">This username already exists</div>')
+    else:
+        return HttpResponse('')
+

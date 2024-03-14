@@ -29,7 +29,11 @@ class U_UserCreationForm(UserCreationForm):
             'placeholder': 'Username',
             'type': 'text',
             'required': 'required',
-            'autofocus': ''
+            'autofocus': '',
+            'hx-post': '/check_username/',
+            'hx-swap': 'innerHTML',
+            'hx-trigger': 'keyup changed',
+            'hx-target': '#username-error'
         })
         self.fields['password1'].widget.attrs.update({
             'class': 'form-control',
@@ -52,7 +56,8 @@ class U_UserCreationForm(UserCreationForm):
 
 class U_AuthenticationForm(AuthenticationForm):
     def __init__(self, *args, **kwargs):
-        super(AuthenticationForm, self).__init__(*args, **kwargs)
+        # super(AuthenticationForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.label_suffix = ""
         self.fields['username'].widget.attrs.update({
             'class': 'form-control',

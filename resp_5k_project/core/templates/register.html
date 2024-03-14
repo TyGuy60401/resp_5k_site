@@ -1,6 +1,6 @@
 {% extends "base-account.html" %}
 
-{% block title %}Create Account{% endblock %}
+{% block sub-title %}Create Account{% endblock %}
 {% block card-title %}Create Account{% endblock %}
 
 {% block card-body %}
@@ -49,6 +49,8 @@
             {{ form.username.errors }}
         </div>
     {% endif %}
+    <div id="username-error"></div>
+    <!-- <div class="alert alert-warning" role="alert" id="username-error"></div> -->
     <div class="form-floating mb-3">
         {{ form.username }}
         {{ form.username.label_tag }}
@@ -75,7 +77,7 @@
     </div>
     <div class="mt-4 mb-0">
         <!-- <div class="d-grid"><a class="btn btn-primary btn-block" href="login.html">Create Account</a></div> -->
-        <div class="d-grid"><button class="btn btn-primary btn-block" type="submit">Create Account</button></div>
+        <div class="d-grid"><button class="btn btn-wildcat-purple btn-block" type="submit">Create Account</button></div>
     </div>
 </form>
 {% endblock %}

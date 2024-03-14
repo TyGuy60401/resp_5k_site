@@ -1,14 +1,16 @@
 {% extends "base-account.html" %}
 
-{% block title %}Login{% endblock %}
+{% block sub-title %}Login{% endblock %}
 {% block card-title %}Login{% endblock %}
 
 {% block card-body %}
 <form method="post" action="/login/">
         {% csrf_token %}
-    {% if form.username.errors %}
+    {% if form.errors %}
         <div class="alert alert-warning" role="alert">
-            {{ form.username.errors }}
+            {% for error in form.non_field_errors %}
+                {{ error }}
+            {% endfor %}
         </div>
     {% endif %}
     <div class="form-floating mb-3">
@@ -19,11 +21,6 @@
     <!--     <input class="form-control" id="id_email" type="email" placeholder="name@example.com" /> -->
     <!--     <label for="id_email">Email address</label> -->
     <!-- </div> -->
-    {% if form.password.errors %}
-        <div class="alert alert-warning" role="alert">
-            {{ form.password.errors }}
-        </div>
-    {% endif %}
     <div class="form-floating mb-3">
         {{ form.password }}
         {{ form.password.label_tag }}
@@ -34,7 +31,7 @@
     </div>
     <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
         <a class="small" href="password.html">Forgot Password?</a>
-        <button class="btn btn-primary btn-block" type="submit">Login</button>
+        <button class="btn btn-wildcat-purple btn-block" type="submit">Login</button>
     </div>
 </form>
 {% endblock %}
