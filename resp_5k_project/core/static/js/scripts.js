@@ -10,6 +10,11 @@
 window.addEventListener('DOMContentLoaded', event => {
 
     // Toggle the side navigation
+    function doSidebarToggle(event) {
+        event.preventDefault(); // This line prevents redirects when a link is pressed.
+        document.body.classList.toggle('sb-sidenav-toggled');
+        localStorage.setItem('sb|sidebar-toggle', document.body.classList.contains('sb-sidenav-toggled'));
+    }
     const sidebarToggle = document.body.querySelector('#sidebarToggle');
     if (sidebarToggle) {
         // Uncomment Below to persist sidebar toggle between refreshes
@@ -17,10 +22,15 @@ window.addEventListener('DOMContentLoaded', event => {
         //     document.body.classList.toggle('sb-sidenav-toggled');
         // }
         sidebarToggle.addEventListener('click', event => {
-            event.preventDefault();
-            document.body.classList.toggle('sb-sidenav-toggled');
-            localStorage.setItem('sb|sidebar-toggle', document.body.classList.contains('sb-sidenav-toggled'));
+            doSidebarToggle(event);
         });
+        document.querySelectorAll('.end-link').forEach(function(link) {
+            link.addEventListener('click', event => {
+                if ((window.innerWidth <= 800)) {
+                    doSidebarToggle(event);
+                }
+            })
+        })
     }
 
 });

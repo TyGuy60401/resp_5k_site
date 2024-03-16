@@ -24,6 +24,13 @@ def main(request):
     return render(request, 'main.html')
 
 def profile(request):
+    context = {
+        "main_content": "/hx-profile/"
+    }
+    return render(request, 'index.html', context)
+
+
+def hx_profile(request):
     if request.user.id == None:
         return HttpResponse('<p>You must be logged in to view this page</p><br><a href="/login/">Log in</a>')
     else:
