@@ -20,18 +20,25 @@ class Index(View):
     def get(self, request):
         return render(request, self.template)
 
-
 def fill_index_page(request, hx_path_name):
     context = {
         "main_content_path": hx_path_name
     }
     return render(request, 'index.html', context)
 
+def hx_fill_index_page(request, page_name, title):
+    return render(request, page_name, context={"title": title})
+
+def hx_profile(request, title):
+    if request.user.id == None:
+        return HttpResponse('<p>You must be logged in to view this page</p><br><a href="/login/">Log in</a>')
+    else:
+        return render(request, 'profile.html', context={"title": title})
+
 
 class Login(LoginView):
     template_name = 'login.html'
     form_class = U_AuthenticationForm
-    
 
 class Register(View):
     template = 'register.html'
@@ -50,22 +57,9 @@ class Register(View):
         print("I guess it wasn't successfully created")
         return render(request, self.template, {'form': form})
 
-
 def logout_view(request):
     logout(request)
     return HttpResponseRedirect('/')
-
-
-def hx_fill_index_page(request, page_name):
-    return render(request, page_name)
-
-
-def hx_profile(request):
-    if request.user.id == None:
-        return HttpResponse('<p>You must be logged in to view this page</p><br><a href="/login/">Log in</a>')
-    else:
-        return render(request, 'profile.html')
-
 
 def check_username(request):
     username = request.POST.get('username')
