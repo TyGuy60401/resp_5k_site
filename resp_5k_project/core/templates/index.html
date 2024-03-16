@@ -4,7 +4,7 @@
 {% block title %}Home - WSU Respiratory 5k{% endblock %}
 
 {% block main %}
-<div id="load" hx-get="{% if main_content %}{{ main_content }}{% else %}hx-main/{% endif %}" hx-target="#main" hx-swap="innerHTML" hx-trigger="load">
+<div id="load" hx-get="{% if main_content_path %}{{ main_content_path }}{% else %}hx-main/{% endif %}" hx-target="#main" hx-swap="innerHTML" hx-trigger="load">
     <div id="main"></div>
 </div>
 {% endblock %}
