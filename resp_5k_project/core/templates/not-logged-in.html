@@ -1,0 +1,10 @@
+{% extends "base-hx.html" %}
+
+{% block content %}
+<div class="container p-5">
+    <span class="h1">{{ not_logged_in_title }}</span>
+    <hr>
+    You must be logged in to view this page.
+    <a href="/login/">Log in</a>
+</div>
+{% endblock %}

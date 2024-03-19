@@ -12,28 +12,40 @@ from .mixins import U_LoginRequiredMixin
 from .forms import U_UserCreationForm, U_AuthenticationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 
+SITE_TITLE = "WSU Respiratory 5K"
+
+def get_context(added_context=None) -> dict:
+    context = {
+        "site_title": SITE_TITLE,
+    }
+    if added_context:
+        context.update(added_context)
+    return context
+
 # Create your views here.
 class Index(View):
     template = 'index.html'
     # login_url = '/login/'
 
     def get(self, request):
-        return render(request, self.template)
+        return render(request, self.template, get_context())
 
 def fill_index_page(request, hx_path_name):
-    context = {
+    context = get_context({
         "main_content_path": hx_path_name
-    }
+    })
     return render(request, 'index.html', context)
 
 def hx_fill_index_page(request, page_name, title):
-    return render(request, page_name, context={"title": title})
+    print(page_name, title)
+    return render(request, page_name, context=get_context({"title": f"{title} - {SITE_TITLE}"}))
 
 def hx_profile(request, title):
     if request.user.id == None:
-        return HttpResponse('<p>You must be logged in to view this page</p><br><a href="/login/">Log in</a>')
+        # return HttpResponse('<p>You must be logged in to view this page</p><br><a href="/login/">Log in</a>')
+        return render(request, 'not-logged-in.html', context=get_context({"not_logged_in_title": "Profile"}))
     else:
-        return render(request, 'profile.html', context={"title": title})
+        return render(request, 'profile.html', context=get_context({"title": f"{title} - {SITE_TITLE}"}))
 
 
 class Login(LoginView):
@@ -45,7 +57,7 @@ class Register(View):
 
     def get(self, request):
         form = U_UserCreationForm()
-        return render(request, self.template, {'form': form})
+        return render(request, self.template, get_context({'form': form}))
 
     def post(self, request):
         form = U_UserCreationForm(request.POST)
@@ -55,7 +67,7 @@ class Register(View):
             return HttpResponseRedirect('/login')
         print(form.errors)
         print("I guess it wasn't successfully created")
-        return render(request, self.template, {'form': form})
+        return render(request, self.template, get_context({'form': form}))
 
 def logout_view(request):
     logout(request)
