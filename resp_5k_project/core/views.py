@@ -1,15 +1,16 @@
 from django.contrib.admin.options import HttpResponseRedirect
 from django.contrib.auth.models import AnonymousUser
 from django.shortcuts import render
+from django.utils.text import wrap
 from django.views import View
-from django.contrib.auth.views import LoginView
+from django.contrib.auth.views import FormView, LoginView
 from django.contrib.auth import get_user_model, logout
 from django.http.response import HttpResponse
 from django.urls import reverse_lazy
 
 
 from .mixins import U_LoginRequiredMixin
-from .forms import U_UserCreationForm, U_AuthenticationForm
+from .forms import U_SendUsMessage, U_UserCreationForm, U_AuthenticationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 SITE_TITLE = "WSU Respiratory 5K"
@@ -46,6 +47,30 @@ def hx_profile(request, title):
         return render(request, 'not-logged-in.html', context=get_context({"not_logged_in_title": "Profile"}))
     else:
         return render(request, 'profile.html', context=get_context({"title": f"{title} - {SITE_TITLE}"}))
+
+def hx_contact_us(request):
+    form = U_SendUsMessage()
+    return render(request, 'contact-us.html', get_context({'form': form}))
+
+
+class ContactUs(View):
+    template = 'index.html'
+    form_class = U_SendUsMessage
+
+
+    def get(self, request):
+        form = U_SendUsMessage()
+        return render(request, self.template, get_context({'form': form, 'main_content_path': '/hx-contact-us/'}))
+
+    def post(self, request):
+        form = U_SendUsMessage(request.POST)
+        if form.is_valid():
+            # form.save()
+            print("Form is valid")
+            return HttpResponseRedirect('/message-sent/')
+        print(form.errors)
+        return render(request, self.template, get_context({'form': form, 'main_content_path': '/hx-contact-us/'}))
+
 
 
 class Login(LoginView):

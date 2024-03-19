@@ -14,7 +14,7 @@
                     Trisha Davis
                 </div>
                 <div class="col-sm-4">
-                    (801) 678-2221
+                    (801) XXX-XXXX
                 </div>
             </div>
             <div class="row p-2">
@@ -25,17 +25,25 @@
                     Ty Davis
                 </div>
                 <div class="col-sm-4">
-                    (801) 837-3642
+                    (801) XXX-XXXX
                 </div>
             </div>
         </div>
         <div class="col-md-6">
-            <span class="h3">Submit Feedback</span>
-            <form method="post" action="/feedback/">
+            <span class="h3">Send us a message</span>
+            <form method="post" action="/contact-us/">
                 {% csrf_token %}
                 
-
-                <input class="form-control"></input>
+                
+                
+                <div class="form-floating mb-3">
+                    {{ form.email }}
+                    {{ form.email.label_tag }}
+                </div>
+                <div class="form-floating mb-3">
+                    {{ form.message }}
+                    {{ form.message.label_tag }}
+                </div>
             </form>
         </div>
     </div>

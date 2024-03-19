@@ -13,7 +13,7 @@ PAGE_TITLES = {
 
 PAGES = [
     'race-route',
-    'contact-us',
+    # 'contact-us',
     'event-info',
     'live-timing',
 ]
@@ -32,6 +32,10 @@ urlpatterns = [
     # hx views
     path('hx-profile/', lambda request: views.hx_profile(request, PAGE_TITLES['profile'])),
     path('hx-main/', lambda request: views.hx_fill_index_page(request, "main.html", PAGE_TITLES['main'])),
+
+    # contact us view
+    path('contact-us/', views.ContactUs.as_view()),
+    path('hx-contact-us/', views.hx_contact_us),
 
 ]
 

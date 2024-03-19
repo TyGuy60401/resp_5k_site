@@ -94,7 +94,7 @@ class U_SendUsMessage(ModelForm):
             'placeholder': 'My message...',
             'type': 'text',
             'required': 'required',
-            'style': 'height: 200px',
+            'rows': "4"
         })
 
     class Meta:
